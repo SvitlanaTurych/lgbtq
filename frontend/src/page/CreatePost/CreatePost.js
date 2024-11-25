@@ -30,13 +30,19 @@ const CreatePost = () => {
     };
 
     try {
+      const token = localStorage.getItem('token');
       // Send the POST request to the backend API
-      await axios.post('http://localhost:5000/api/posts', newPost);
+      await axios.post('http://localhost:5000/api/posts', newPost, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Передаємо токен
+        },
+    });
 
       // Show success message and redirect to home
       alert('Post created successfully!');
       navigate('/');
     } catch (error) {
+      console.error('Помилка:', error.response || error.message);
       // Handle error if the request fails
       alert('Error creating post: ' + error.message);
     }
