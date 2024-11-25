@@ -1,0 +1,86 @@
+/* App.css */
+
+/* General body and layout styling */
+body {
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.min-h-screen {
+  min-height: 100vh;
+}
+
+.bg-gray-50 {
+  background-color: #f9fafb;
+}
+
+.text-gray-700 {
+  color: #4a5568;
+}
+
+.text-gray-600 {
+  color: #718096;
+}
+
+.text-gray-800 {
+  color: #2d3748;
+}
+
+/* Header Styling */
+header {
+  background-color: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 1rem 0;
+}
+
+header .logo {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #6b46c1;
+}
+
+/* Layout for routes */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.btn {
+  background-color: #6b46c1;
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.btn:hover {
+  background-color: #553c9a;
+}
+
+.error-message {
+  background-color: #fee2e2;
+  border: 1px solid #fda4b3;
+  color: #9b2c2c;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+input, button {
+  border-radius: 8px;
+  padding: 0.875rem;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+input:focus, button:focus {
+  outline: none;
+}
+
+button {
+  cursor: pointer;
+}

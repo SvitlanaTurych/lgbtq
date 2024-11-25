@@ -1,0 +1,123 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+  
+  .post {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+  }
+  
+  .post-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+  
+  .post-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333333;
+  }
+  
+  .post-meta {
+    font-size: 0.875rem;
+    color: #777777;
+  }
+  
+  .delete-btn {
+    background: none;
+    border: none;
+    color: #e74c3c;
+    cursor: pointer;
+  }
+  
+  .post-content {
+    font-size: 1rem;
+    color: #444444;
+    margin-bottom: 1.5rem;
+  }
+  
+  .comments-section {
+    border-top: 1px solid #e2e2e2;
+    padding-top: 1rem;
+  }
+  
+  .comments-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #6a4c9c;
+    display: flex;
+    align-items: center;
+  }
+  
+  .icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 0.5rem;
+  }
+  
+  .comment-input {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .comment-input-field {
+    flex: 1;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  
+  .comment-btn {
+    padding: 0.5rem 1rem;
+    background-color: #6a4c9c;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .comment-list {
+    margin-top: 1.5rem;
+  }
+  
+  .comment {
+    background-color: #f9f9f9;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+  }
+  
+  .comment-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+  }
+  
+  .comment-author {
+    font-weight: 600;
+    color: #6a4c9c;
+  }
+  
+  .comment-date {
+    font-size: 0.875rem;
+    color: #777777;
+  }
+  
+  .comment-content {
+    font-size: 1rem;
+    color: #444444;
+  }
+  
+  .no-posts {
+    text-align: center;
+    padding: 3rem 0;
+    font-size: 1.125rem;
+    color: #555555;
+  }
+  

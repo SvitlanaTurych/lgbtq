@@ -1,0 +1,103 @@
+/* Header styles */
+.header {
+    background: linear-gradient(to right, #7e3bb2, #e92c93); /* Purple to Pink gradient */
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px;
+  }
+  
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+  }
+  
+  .logo-icon {
+    height: 32px;
+    width: 32px;
+    margin-right: 8px;
+  }
+  
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  
+  .nav-link {
+    text-decoration: none;
+    color: white;
+    transition: color 0.3s;
+  }
+  
+  .nav-link:hover {
+    color: #fcb7d1; /* Pink hover color */
+  }
+  
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .welcome-message {
+    color: #fcb7d1; /* Light pink */
+  }
+  
+  .logout-button {
+    background-color: #e92c93; /* Pink background */
+    border: none;
+    padding: 8px 16px;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .logout-button:hover {
+    background-color: #d02c7c;
+  }
+  
+  .auth-links {
+    display: flex;
+    gap: 16px;
+  }
+  
+  .auth-link {
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+  }
+  
+  .auth-link.login-link {
+    background-color: transparent;
+    border: 1px solid white;
+  }
+  
+  .auth-link.login-link:hover {
+    background-color: #e92c93;
+  }
+  
+  .auth-link.register-link {
+    background-color: #e92c93;
+    color: white;
+  }
+  
+  .auth-link.register-link:hover {
+    background-color: #d02c7c;
+  }
+  
