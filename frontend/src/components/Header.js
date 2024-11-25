@@ -20,7 +20,7 @@ const Header = () => {
             <Link to="/" className="nav-link">Home</Link>
             {currentUser ? (
               <>
-                <Link to="/create-post" className="nav-link">Create Post</Link>
+                <Link to="/create-post" className="nav-link"> CreatePost</Link>
                 <div className="user-info">
                   <span className="welcome-message">Welcome, {currentUser.username}!</span>
                   <button

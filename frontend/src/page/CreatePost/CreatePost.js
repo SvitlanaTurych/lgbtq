@@ -31,7 +31,7 @@ const CreatePost = () => {
 
     try {
       // Send the POST request to the backend API
-      await axios.post('http://localhost:3000/api/posts', newPost);
+      await axios.post('http://localhost:5000/api/posts', newPost);
 
       // Show success message and redirect to home
       alert('Post created successfully!');

@@ -5,7 +5,7 @@ const auth = require('../middleware/auth');
 const router = express.Router();
 
 // Створення поста
-router.post('/', auth, async (req, res) => {
+router.post('/post', auth, async (req, res) => {
     const { title, content } = req.body;
     try {
         const newPost = new Post({ title, content, user: req.user.id });

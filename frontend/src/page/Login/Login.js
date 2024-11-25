@@ -18,10 +18,11 @@ const Login = () => {
 
     try {
         //   const response = await login(email, password);
-        const response = await axios.post('http://localhost:5000/api/auth/register', { username, password });
-      alert(response.data.message);
+        console.log('Sending data:', { username, password });
+        const response = await axios.post('http://localhost:5000/api/auth/login', { username, password });
+        console.log('Response:', response.data);
       if (response) {
-        navigate('/');
+        navigate('/create-post');
       } else {
         setError('Invalid username or password');
       }

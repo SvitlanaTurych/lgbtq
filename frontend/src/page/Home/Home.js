@@ -15,9 +15,9 @@ export const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const postsResponse = await axios.get('http://localhost:3000/api/posts');
-        const commentsResponse = await axios.get('http://localhost:3000/api/comments');
-        const usersResponse = await axios.get('http://localhost:3000/api/users');
+        const postsResponse = await axios.get('http://localhost:5000/api/posts');
+        const commentsResponse = await axios.get('http://localhost:5000/api/comments');
+        const usersResponse = await axios.get('http://localhost:5000/api/users');
         
         setPosts(postsResponse.data);
         setComments(commentsResponse.data);
@@ -32,7 +32,7 @@ export const Home = () => {
 
   const handleDelete = async (postId) => {
     try {
-      await axios.delete(`http://localhost:3000/api/posts/${postId}`);
+      await axios.delete(`http://localhost:5000/api/posts/${postId}`);
       setPosts(posts.filter(post => post.id !== postId));
       setComments(comments.filter(comment => comment.postId !== postId));
     } catch (error) {
@@ -51,7 +51,7 @@ export const Home = () => {
     };
 
     try {
-      const response = await axios.post('http://localhost:3000/api/comments', comment);
+      const response = await axios.post('http://localhost:5000/api/comments', comment);
       setComments([...comments, response.data]);
       setNewComment(prev => ({ ...prev, [postId]: '' }));
     } catch (error) {

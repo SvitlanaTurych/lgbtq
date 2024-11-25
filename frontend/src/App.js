@@ -10,7 +10,7 @@ import './App.css';
 
 const PrivateRoute = ({ children }) => {
   const { isLoggedIn } = useAuth();
-  return isLoggedIn ? children : <Navigate to="/login" />;
+  return isLoggedIn ? children : <Navigate to="/create-post" />;
 };
 
 function App() {
@@ -23,14 +23,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route
-              path="/create-post"
-              element={
-                <PrivateRoute>
-                  <CreatePost />
-                </PrivateRoute>
-              }
-            />
+            <Route path="/create-post" element={ <PrivateRoute> <CreatePost /> </PrivateRoute> }/>
           </Routes>
         </div>
       </AuthProvider>

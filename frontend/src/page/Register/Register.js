@@ -18,11 +18,16 @@ const Register = () => {
 
     try {
       // Save user data to the database via API (instead of localStorage)
-      const response = await axios.post('http://localhost:5000/api/auth/register', { username, email, password });
-      alert(response.data.message);
+      console.log('Sending data:', { username, email, password });
+      const response = await axios.post('http://localhost:5000/api/auth/register', { 
+            username, 
+            email, 
+            password 
+        });
+        console.log(response.data);
 
-      if (response) {
-        navigate('/');
+      if (response.status === 201) {
+        navigate('/login');
       } else {
         setError('Username or email already exists');
       }
