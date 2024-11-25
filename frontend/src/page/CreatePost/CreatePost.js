@@ -30,7 +30,8 @@ const CreatePost = () => {
     };
 
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('authToken');
+      console.log('Token:', token);
       // Send the POST request to the backend API
       await axios.post('http://localhost:5000/api/posts', newPost, {
         headers: {
