@@ -16,12 +16,13 @@ export const Home = () => {
     const fetchData = async () => {
       try {
         const postsResponse = await axios.get('http://localhost:5000/api/posts');
-        const commentsResponse = await axios.get('http://localhost:5000/api/comments');
-        const usersResponse = await axios.get('http://localhost:5000/api/users');
+        // Оскільки шляхи не реалізовані, тому я їх поки закоментував
+        // const commentsResponse = await axios.get('http://localhost:5000/api/comments');
+        // const usersResponse = await axios.get('http://localhost:5000/api/users');
         
         setPosts(postsResponse.data);
-        setComments(commentsResponse.data);
-        setUsers(usersResponse.data);
+        // setComments(commentsResponse.data);
+        // setUsers(usersResponse.data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }

@@ -16,19 +16,25 @@
     justify-content: space-between;
     align-items: center;
   }
-  
+
   .logo {
     display: flex;
     align-items: center;
+  }
+  
+  .logo span{
     font-size: 1.5rem;
     font-weight: bold;
     color: white;
+    text-decoration: none;
   }
   
-  .logo-icon {
-    height: 32px;
-    width: 32px;
+  .logo .logo-icon {
+    height: 30px;
+    width: 30px;
     margin-right: 8px;
+    color: white;
+    text-decoration: none;
   }
   
   .nav {
@@ -65,6 +71,7 @@
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
+    margin: auto 0;
   }
   
   .logout-button:hover {
@@ -84,12 +91,12 @@
   }
   
   .auth-link.login-link {
-    background-color: transparent;
-    border: 1px solid white;
+    background-color: #e92c93;
+    color: white;
   }
   
   .auth-link.login-link:hover {
-    background-color: #e92c93;
+    background-color: #d02c7c;
   }
   
   .auth-link.register-link {

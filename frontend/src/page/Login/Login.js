@@ -1,83 +1,79 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { useAuth } from '../../AuthProvider';
+import { useAuth } from '../../AuthProvider'; 
 import { LogIn } from 'lucide-react';
 import axios from 'axios';
 import './Login.css';
 
 const Login = () => {
+  const { login } = useAuth(); // Get the `login` method from AuthProvider
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
-    //   const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
     try {
-        //   const response = await login(email, password);
-        console.log('Sending data:', { username, password });
-        const response = await axios.post('http://localhost:5000/api/auth/login', { username, password });
-        console.log('Response:', response.data);
-      if (response) {
-        navigate('/create-post');
+      console.log('Sending data:', { username, password });
+      const response = await axios.post('http://localhost:5000/api/auth/login', { username, password });
+      console.log('Response:', response.data);
+
+      if (response.status === 200) {
+        // Assuming response includes user and token
+        const { user, token } = response.data;
+        login(user, token); // Call AuthProvider's `login` to update context
+        navigate('/'); // Redirect to home
       } else {
         setError('Invalid username or password');
       }
     } catch (error) {
-        console.error(error);
+      console.error('Error during login:', error);
       setError('An error occurred during login');
     }
   };
 
   return (
-    <div className="min-h-[calc(100vh-5rem)] flex items-center justify-center bg-gray-50">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <div className="flex items-center justify-center mb-8">
-          <LogIn className="h-12 w-12 text-purple-600" />
+    <div className="login-container">
+      <div className="login-form">
+        <div className="icon-container">
+          <LogIn className="icon" />
         </div>
         
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-8">Welcome Back</h2>
+        <h2 className="title">Welcome Back</h2>
         
         {error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+          <div className="error-message">
             {error}
           </div>
         )}
         
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Username
-            </label>
+        <form onSubmit={handleSubmit} className="form">
+          <div className="form-group">
+            <label className="label">Username</label>
             <input
-              type="username"
+              type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-purple-500"
+              className="input"
               required
             />
           </div>
           
-          <div>
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Password
-            </label>
+          <div className="form-group">
+            <label className="label">Password</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-purple-500"
+              className="input"
               required
             />
           </div>
           
-          <button
-            type="submit"
-            className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition duration-200"
-          >
+          <button type="submit" className="submit-btn">
             Sign In
           </button>
         </form>

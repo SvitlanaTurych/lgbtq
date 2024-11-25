@@ -5,7 +5,7 @@ import { Heart } from 'lucide-react';
 import './Header.css'; // Import the CSS file
 
 const Header = () => {
-  const { currentUser, logout } = useAuth();
+  const { logout, isLoggedIn, currentUser } = useAuth();
 
   return (
     <header className="header">
@@ -18,11 +18,11 @@ const Header = () => {
           
           <nav className="nav">
             <Link to="/" className="nav-link">Home</Link>
-            {currentUser ? (
+            {isLoggedIn ? (
               <>
-                <Link to="/create-post" className="nav-link"> CreatePost</Link>
+                <Link to="/create-post" className="nav-link">Create Post</Link>
                 <div className="user-info">
-                  <span className="welcome-message">Welcome, {currentUser.username}!</span>
+                  <span className="welcome-message">Welcome, {currentUser?.username || 'User'}!</span>
                   <button
                     onClick={logout}
                     className="logout-button"

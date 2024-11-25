@@ -1,44 +1,52 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 
-// Create a context for user authentication
 const AuthContext = createContext();
 
-// AuthProvider component
-const AuthProvider = ({ children }) => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [currentUser, setCurrentUser] = useState(null);
+export const AuthProvider = ({ children }) => {
+    const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('authToken'));
+    const [currentUser, setCurrentUser] = useState(() => {
+        const user = localStorage.getItem('currentUser');
+        return user ? JSON.parse(user) : null;
+    });
 
     useEffect(() => {
         const token = localStorage.getItem('authToken');
-        setIsLoggedIn(!!token);
+        const user = JSON.parse(localStorage.getItem('currentUser'));
+
+        if (token && user) {
+            setIsLoggedIn(true);
+            setCurrentUser(user);
+        } else {
+            setIsLoggedIn(false);
+            setCurrentUser(null);
+        }
     }, []);
 
-    useEffect(() => {
-        // Try to get the user from localStorage or any other persistent state
-        const user = JSON.parse(localStorage.getItem('currentUser'));
-        if (user) {
-          setCurrentUser(user);
-        }
-      }, []);
+    const login = (user, token) => {
+        console.log('Авторизація користувача:', user);
+        setCurrentUser(user); // Оновлення поточного користувача
+        localStorage.setItem('currentUser', JSON.stringify(user)); // Збереження користувача
+        localStorage.setItem('authToken', token); // Збереження токена
+        setIsLoggedIn(true); // Оновлення стану входу
+        console.log('Авторизація успішна. Поточний користувач:', user, 'Увійшов:', true); // Підтвердження успіху
+    };
     
-      const login = (user) => {
-        setCurrentUser(user);
-        localStorage.setItem('currentUser', JSON.stringify(user));
-      };
-    
-      const logout = () => {
-        setCurrentUser(null);
-        localStorage.removeItem('currentUser');
-      };
+    const logout = () => {
+        console.log("Logging out user.");
+        setCurrentUser(null); // Reset the current user
+        localStorage.removeItem('currentUser'); // Remove user from localStorage
+        localStorage.removeItem('authToken'); // Remove token from localStorage
+        setIsLoggedIn(false); // Set isLoggedIn to false when logging out
+        console.log('Logout successful. Is logged in:', false); // Confirm logout state
+    };
 
     return (
-        <AuthContext.Provider value={{ currentUser, login, logout, isLoggedIn, setIsLoggedIn }}>
+        <AuthContext.Provider value={{ currentUser, login, logout, isLoggedIn }}>
             {children}
         </AuthContext.Provider>
     );
 };
 
-// Custom hook to use the AuthContext
 export const useAuth = () => useContext(AuthContext);
 
 export default AuthProvider;
