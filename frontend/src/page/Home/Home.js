@@ -15,14 +15,11 @@ export const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const postsResponse = await axios.get('http://localhost:5000/api/posts');
-        // Оскільки шляхи не реалізовані, тому я їх поки закоментував
-        // const commentsResponse = await axios.get('http://localhost:5000/api/comments');
-        // const usersResponse = await axios.get('http://localhost:5000/api/users');
+        const postsResponse = await axios.get('http://localhost:5000/api/posts/');
+        const commentsResponse = await axios.get('http://localhost:5000/api/comments');
         
         setPosts(postsResponse.data);
-        // setComments(commentsResponse.data);
-        // setUsers(usersResponse.data);
+        setComments(commentsResponse.data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -76,7 +73,7 @@ export const Home = () => {
                   Posted by {getUsername(post.authorId)} on {format(new Date(post.createdAt), 'PPP')}
                 </p>
               </div>
-              {currentUser?.id === post.authorId && (
+              {currentUser && currentUser.id === post.authorId && (
                 <button
                   onClick={() => handleDelete(post.id)}
                   className="delete-btn"
@@ -140,5 +137,6 @@ export const Home = () => {
     </div>
   );
 };
+
 
 export default Home;
