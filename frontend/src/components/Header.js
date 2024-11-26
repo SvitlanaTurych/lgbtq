@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../AuthProvider';
 import { Heart } from 'lucide-react';
-import './Header.css'; // Import the CSS file
+import './Header.css'; 
 
 const Header = () => {
   const { logout, isLoggedIn, currentUser } = useAuth();

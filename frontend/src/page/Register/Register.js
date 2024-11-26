@@ -17,7 +17,6 @@ const Register = () => {
     setError('');
 
     try {
-      // Save user data to the database via API (instead of localStorage)
       console.log('Sending data:', { username, email, password });
       const response = await axios.post('http://localhost:5000/api/auth/register', { 
             username, 

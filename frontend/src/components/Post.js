@@ -13,10 +13,9 @@ const Post = ({
   getUsername,
 }) => {
   const handleCommentChange = (e) => {
-    // Update the newComment state for the specific post ID
     setNewComment((prev) => ({
       ...prev,
-      [post._id]: e.target.value, // Ensure each post has its own comment value
+      [post._id]: e.target.value, 
     }));
   };
 
@@ -33,7 +32,7 @@ const Post = ({
         </div>
         {currentUser && String(currentUser.id) === String(post.authorId) && (
     <button
-        onClick={() => handleDelete(post._id)} // Use _id for deleting posts
+        onClick={() => handleDelete(post._id)} 
         className="delete-btn"
     >
         <Trash2 className="icon" />
@@ -55,13 +54,13 @@ const Post = ({
           <div className="comment-input">
             <input
               type="text"
-              value={newComment[post._id] || ''} // Ensure each input corresponds to a specific post
-              onChange={handleCommentChange} // Update only this post's comment
+              value={newComment[post._id] || ''} 
+              onChange={handleCommentChange} 
               placeholder="Add a comment..."
               className="comment-input-field"
             />
             <button
-              onClick={() => handleAddComment(post._id)} // Use _id here
+              onClick={() => handleAddComment(post._id)} 
               className="comment-btn"
             >
               Comment
@@ -72,7 +71,7 @@ const Post = ({
         {/* Render Comments */}
         <div className="comment-list">
           {comments
-            .filter((comment) => comment.postId === post._id) // Use _id to match comments to posts
+            .filter((comment) => comment.postId === post._id) 
             .map((comment) => (
               <div key={comment._id} className="comment">
                 <div className="comment-header">

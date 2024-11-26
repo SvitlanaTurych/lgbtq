@@ -47,23 +47,52 @@ export const Home = () => {
 };
 
 
-  // Add Comment
+  // //Add Comment
+  // const handleAddComment = async (postId) => {
+  //   if (!currentUser || !newComment[postId]) return;
+
+  //   const comment = {
+  //     content: newComment[postId],
+  //     postId,
+  //     authorId: currentUser.id,
+  //     createdAt: new Date().toISOString(),
+  //   };
+
+  //   try {
+  //     const response = await axios.post(`http://localhost:5000/api/comments${postId}`, comment);
+  //     setComments([...comments, response.data]);
+  //     setNewComment((prev) => ({ ...prev, [postId]: '' }));  // Reset the input for this specific post
+  //   } catch (error) {
+  //     console.error('Error adding comment:', error);
+  //   }
+  // };
+
   const handleAddComment = async (postId) => {
     if (!currentUser || !newComment[postId]) return;
-
+  
     const comment = {
       content: newComment[postId],
-      postId,
       authorId: currentUser.id,
       createdAt: new Date().toISOString(),
     };
-
+  
     try {
-      const response = await axios.post('http://localhost:5000/api/comments', comment);
+      const token = localStorage.getItem('authToken');
+      console.log('Token:', token); 
+      if (!token) throw new Error('No authentication token found');
+  
+      // Додаємо postId в URL
+      const response = await axios.post(`http://localhost:5000/api/comments/${postId}`, comment, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      // Оновлюємо список коментарів
       setComments([...comments, response.data]);
-      setNewComment((prev) => ({ ...prev, [postId]: '' }));  // Reset the input for this specific post
+      setNewComment((prev) => ({ ...prev, [postId]: '' })); // Очищаємо поле для коментаря
     } catch (error) {
-      console.error('Error adding comment:', error);
+      console.error('Error adding comment:', error.response?.data || error.message);
     }
   };
 
@@ -80,8 +109,8 @@ export const Home = () => {
             key={post._id}
             post={{
                 ...post,
-                authorId: post.user?._id, // Pass the user's ID as authorId
-                user: post.user?.username, // Pass the user's username
+                authorId: post.user?._id, 
+                user: post.user?.username, 
             }}
             comments={comments}
             currentUser={currentUser}

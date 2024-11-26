@@ -33,11 +33,11 @@ export const AuthProvider = ({ children }) => {
     
     const logout = () => {
         console.log("Logging out user.");
-        setCurrentUser(null); // Reset the current user
-        localStorage.removeItem('currentUser'); // Remove user from localStorage
-        localStorage.removeItem('authToken'); // Remove token from localStorage
-        setIsLoggedIn(false); // Set isLoggedIn to false when logging out
-        console.log('Logout successful. Is logged in:', false); // Confirm logout state
+        setCurrentUser(null); 
+        localStorage.removeItem('currentUser'); 
+        localStorage.removeItem('authToken'); 
+        setIsLoggedIn(false); 
+        console.log('Logout successful. Is logged in:', false); 
     };
 
     return (
