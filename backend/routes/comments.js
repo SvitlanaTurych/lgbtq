@@ -5,7 +5,7 @@ const router = express.Router();
 
 // Створити коментар
 router.post('/:postId', async (req, res) => {
-    const postId = req.params.id;
+    const postId = req.params.postId;
     const { content } = req.body;
     const user = req.user;  // Припускаємо, що user додано через middleware
 
@@ -26,5 +26,16 @@ router.post('/:postId', async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 });
+
+router.get('/', async (req, res) => {
+    try {
+        const comments = await Comment.find().populate('user', 'username'); // Populate with user data if needed
+        res.json(comments);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
 
 module.exports = router;

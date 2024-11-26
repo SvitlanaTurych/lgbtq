@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../AuthProvider';
-import { MessageSquare, Trash2 } from 'lucide-react';
 import axios from 'axios';
-import { format } from 'date-fns'; // Import format from date-fns
+import Post from '../../components/Post'; // Import the Post component
 import './Home.css'; // Import the CSS file
 
 export const Home = () => {
@@ -12,6 +11,7 @@ export const Home = () => {
   const [newComment, setNewComment] = useState({});
   const { currentUser } = useAuth();
 
+  // Fetch Data
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -28,16 +28,26 @@ export const Home = () => {
     fetchData();
   }, []);
 
+  // Delete Post
   const handleDelete = async (postId) => {
     try {
-      await axios.delete(`http://localhost:5000/api/posts/${postId}`);
-      setPosts(posts.filter(post => post.id !== postId));
-      setComments(comments.filter(comment => comment.postId !== postId));
-    } catch (error) {
-      console.error('Error deleting post:', error);
-    }
-  };
+        const token = localStorage.getItem('authToken'); // Fetch the token from storage
+        if (!token) throw new Error('No token found');
 
+        await axios.delete(`http://localhost:5000/api/posts/${postId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`, // Include the 'Bearer ' prefix
+            },
+        });
+
+        setPosts(posts.filter((post) => post._id !== postId));
+    } catch (error) {
+        console.error('Error deleting post:', error.response?.data || error.message);
+    }
+};
+
+
+  // Add Comment
   const handleAddComment = async (postId) => {
     if (!currentUser || !newComment[postId]) return;
 
@@ -51,83 +61,39 @@ export const Home = () => {
     try {
       const response = await axios.post('http://localhost:5000/api/comments', comment);
       setComments([...comments, response.data]);
-      setNewComment(prev => ({ ...prev, [postId]: '' }));
+      setNewComment((prev) => ({ ...prev, [postId]: '' }));  // Reset the input for this specific post
     } catch (error) {
       console.error('Error adding comment:', error);
     }
   };
 
+  // Get Username
   const getUsername = (userId) => {
-    return users.find(user => user.id === userId)?.username || 'Unknown User';
+    return users.find((user) => user.id === userId)?.username || 'Unknown User';
   };
 
   return (
     <div className="container">
       <div className="space-y-8">
-        {posts.map(post => (
-          <div key={post.id} className="post">
-            <div className="post-header">
-              <div>
-                <h2 className="post-title">{post.title}</h2>
-                <p className="post-meta">
-                  Posted by {getUsername(post.authorId)} on {format(new Date(post.createdAt), 'PPP')}
-                </p>
-              </div>
-              {currentUser && currentUser.id === post.authorId && (
-                <button
-                  onClick={() => handleDelete(post.id)}
-                  className="delete-btn"
-                >
-                  <Trash2 className="icon" />
-                </button>
-              )}
-            </div>
-            
-            <p className="post-content">{post.content}</p>
-            
-            <div className="comments-section">
-              <h3 className="comments-title">
-                <MessageSquare className="icon" />
-                Comments
-              </h3>
-              
-              {currentUser && (
-                <div className="comment-input">
-                  <input
-                    type="text"
-                    value={newComment[post.id] || ''}
-                    onChange={(e) => setNewComment(prev => ({ ...prev, [post.id]: e.target.value }))}
-                    placeholder="Add a comment..."
-                    className="comment-input-field"
-                  />
-                  <button
-                    onClick={() => handleAddComment(post.id)}
-                    className="comment-btn"
-                  >
-                    Comment
-                  </button>
-                </div>
-              )}
-              
-              <div className="comment-list">
-                {comments
-                  .filter(comment => comment.postId === post.id)
-                  .map(comment => (
-                    <div key={comment.id} className="comment">
-                      <div className="comment-header">
-                        <p className="comment-author">{getUsername(comment.authorId)}</p>
-                        <p className="comment-date">
-                          {format(new Date(comment.createdAt), 'PPP')}
-                        </p>
-                      </div>
-                      <p className="comment-content">{comment.content}</p>
-                    </div>
-                  ))}
-              </div>
-            </div>
-          </div>
-        ))}
-        
+      {posts.map((post) => (
+        <Post
+            key={post._id}
+            post={{
+                ...post,
+                authorId: post.user?._id, // Pass the user's ID as authorId
+                user: post.user?.username, // Pass the user's username
+            }}
+            comments={comments}
+            currentUser={currentUser}
+            handleDelete={handleDelete}
+            handleAddComment={handleAddComment}
+            newComment={newComment}
+            setNewComment={setNewComment}
+            getUsername={getUsername}
+        />
+    ))}
+
+
         {posts.length === 0 && (
           <div className="no-posts">
             <p>No posts yet. Be the first to share something!</p>
@@ -137,6 +103,5 @@ export const Home = () => {
     </div>
   );
 };
-
 
 export default Home;
