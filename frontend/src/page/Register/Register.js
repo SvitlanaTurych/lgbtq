@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { useAuth } from '../../AuthProvider';
 import { UserPlus } from 'lucide-react';
 import axios from 'axios';
 import './Register.css';

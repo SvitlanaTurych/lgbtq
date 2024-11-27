@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../AuthProvider';
 import { PenTool } from 'lucide-react';
-import axios from 'axios'; // Import axios for making HTTP requests
-import './CreatePost.css'; // Import the CSS file
+import axios from 'axios'; 
+import './CreatePost.css'; 
 
 const CreatePost = () => {
   const [title, setTitle] = useState('');
@@ -11,17 +11,14 @@ const CreatePost = () => {
   const navigate = useNavigate();
   const { currentUser } = useAuth();
 
-  // Handle the form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check if the user is logged in
     if (!currentUser) {
       alert('You must be logged in to create a post!');
       return;
     }
 
-    // Prepare the new post object
     const newPost = {
       title,
       content,
@@ -32,19 +29,18 @@ const CreatePost = () => {
     try {
       const token = localStorage.getItem('authToken');
       console.log('Token:', token);
-      // Send the POST request to the backend API
+
       await axios.post('http://localhost:5000/api/posts', newPost, {
         headers: {
-          Authorization: `Bearer ${token}`, // Передаємо токен
+          Authorization: `Bearer ${token}`, 
         },
     });
 
-      // Show success message and redirect to home
       alert('Post created successfully!');
       navigate('/');
     } catch (error) {
       console.error('Помилка:', error.response || error.message);
-      // Handle error if the request fails
+
       alert('Error creating post: ' + error.message);
     }
   };

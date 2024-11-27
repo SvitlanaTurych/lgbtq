@@ -13,38 +13,29 @@ const Post = ({
   getUsername,
 }) => {
   const handleCommentChange = (e) => {
-    // Update the newComment state for the specific post ID
     setNewComment((prev) => ({
       ...prev,
-      [post._id]: e.target.value, // Ensure each post has its own comment value
+      [post._id]: e.target.value,
     }));
   };
 
   return (
     <div className="post">
-      {/* Post Header */}
       <div className="post-header">
         <div>
           <h2 className="post-title">{post.title}</h2>
           <p className="post-meta">
-            Posted by {post.user} on{' '}
-            {format(new Date(post.createdAt), 'PPP')}
+            Posted by {post.user ? getUsername(post.user._id) : 'Unknown'} on {format(new Date(post.createdAt), 'PPP')}
           </p>
         </div>
-        {currentUser && String(currentUser.id) === String(post.authorId) && (
-    <button
-        onClick={() => handleDelete(post._id)} // Use _id for deleting posts
-        className="delete-btn"
-    >
-        <Trash2 className="icon" />
-    </button>
-)}
+        {currentUser && post.user && String(currentUser.id) === String(post.user._id) && (
+          <button onClick={() => handleDelete(post._id)} className="delete-btn">
+            <Trash2 className="icon" />
+          </button>
+        )}
       </div>
-
-      {/* Post Content */}
       <p className="post-content">{post.content}</p>
 
-      {/* Comments Section */}
       <div className="comments-section">
         <h3 className="comments-title">
           <MessageSquare className="icon" />
@@ -55,13 +46,13 @@ const Post = ({
           <div className="comment-input">
             <input
               type="text"
-              value={newComment[post._id] || ''} // Ensure each input corresponds to a specific post
-              onChange={handleCommentChange} // Update only this post's comment
+              value={newComment[post._id] || ''}
+              onChange={handleCommentChange}
               placeholder="Add a comment..."
               className="comment-input-field"
             />
             <button
-              onClick={() => handleAddComment(post._id)} // Use _id here
+              onClick={() => handleAddComment(post._id)}
               className="comment-btn"
             >
               Comment
@@ -69,14 +60,13 @@ const Post = ({
           </div>
         )}
 
-        {/* Render Comments */}
         <div className="comment-list">
           {comments
-            .filter((comment) => comment.postId === post._id) // Use _id to match comments to posts
+            .filter((comment) => String(comment.post) === String(post._id)) // Ensure matching by post ID
             .map((comment) => (
               <div key={comment._id} className="comment">
                 <div className="comment-header">
-                  <p className="comment-author">{getUsername(comment.authorId)}</p>
+                  <p className="comment-author">{comment.user ? comment.user.username : 'Unknown User'}</p>
                   <p className="comment-date">
                     {format(new Date(comment.createdAt), 'PPP')}
                   </p>

@@ -5,7 +5,6 @@ const User = require('../models/User');
 
 const router = express.Router();
 
-// Реєстрація
 router.post('/register', async (req, res) => {
     const { username, email, password } = req.body;
     try {
@@ -21,7 +20,6 @@ router.post('/register', async (req, res) => {
     }
 });
 
-// Авторизація
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
     try {

@@ -24,20 +24,20 @@ export const AuthProvider = ({ children }) => {
 
     const login = (user, token) => {
         console.log('Авторизація користувача:', user);
-        setCurrentUser(user); // Оновлення поточного користувача
-        localStorage.setItem('currentUser', JSON.stringify(user)); // Збереження користувача
-        localStorage.setItem('authToken', token); // Збереження токена
-        setIsLoggedIn(true); // Оновлення стану входу
-        console.log('Авторизація успішна. Поточний користувач:', user, 'Увійшов:', true); // Підтвердження успіху
+        setCurrentUser(user); 
+        localStorage.setItem('currentUser', JSON.stringify(user)); 
+        localStorage.setItem('authToken', token); 
+        setIsLoggedIn(true); 
+        console.log('Авторизація успішна. Поточний користувач:', user, 'Увійшов:', true); 
     };
     
     const logout = () => {
         console.log("Logging out user.");
-        setCurrentUser(null); // Reset the current user
-        localStorage.removeItem('currentUser'); // Remove user from localStorage
-        localStorage.removeItem('authToken'); // Remove token from localStorage
-        setIsLoggedIn(false); // Set isLoggedIn to false when logging out
-        console.log('Logout successful. Is logged in:', false); // Confirm logout state
+        setCurrentUser(null); 
+        localStorage.removeItem('currentUser'); 
+        localStorage.removeItem('authToken'); 
+        setIsLoggedIn(false); 
+        console.log('Logout successful. Is logged in:', false); 
     };
 
     return (
