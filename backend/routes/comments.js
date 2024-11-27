@@ -1,53 +1,42 @@
 const express = require('express');
-const Post = require('../models/Post'); 
+const Post = require('../models/Post'); // Додаємо імпорт Post
 const Comment = require('../models/Comment');
 const router = express.Router();
+const auth = require('../middleware/auth');
 
 // Створити коментар
-router.post('/:postId', async (req, res) => {
+router.post('/:postId', auth, async (req, res) => {
     const postId = req.params.postId;
-
-    console.log('Post ID from URL:', postId);
-
     const { content } = req.body;
     const user = req.user;  // Припускаємо, що user додано через middleware
 
-    // Перевірка, чи є вміст коментаря
     if (!content || content.trim() === '') {
         return res.status(400).json({ message: 'Content cannot be empty' });
     }
 
-    // Перевірка, чи існує користувач
-    if (!user || !user._id) {
-        return res.status(401).json({ message: 'User not authorized' });
-    }
-
     try {
-        // Перевірка, чи існує пост
         const post = await Post.findById(postId);
         if (!post) return res.status(404).json({ message: 'Post not found' });
 
-        // Створення нового коментаря
         const comment = new Comment({ content, post: postId, user: user._id });
         await comment.save();
 
-        // Повертаємо створений коментар
-        res.status(201).json(comment);
+        res.status(201).json(comment);  // Повертаємо сам коментар
     } catch (error) {
-        console.error(error);
+        console.error(error);  // Додаємо логування помилок
         res.status(500).json({ message: 'Server error' });
     }
 });
 
-// Отримати всі коментарі
 router.get('/', async (req, res) => {
     try {
-        const comments = await Comment.find().populate('user', 'username'); // Populate with user data
+        const comments = await Comment.find().populate('user', 'username'); // Populate with user data if needed
         res.json(comments);
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
     }
 });
+
 
 module.exports = router;

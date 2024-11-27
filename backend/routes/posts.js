@@ -68,7 +68,7 @@ router.get('/', async (req, res) => {
 //     }
 // });
 
-// Видалити пост
+// Delete a post
 router.delete('/:id', auth, async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
@@ -79,8 +79,8 @@ router.delete('/:id', auth, async (req, res) => {
             return res.status(403).json({ message: 'Access denied' });
         }
 
-        // Видалтити пост
-        await post.deleteOne(); 
+        // Delete the post
+        await post.deleteOne(); // or await Post.findByIdAndDelete(req.params.id);
 
         res.json({ message: 'Post deleted successfully' });
     } catch (error) {

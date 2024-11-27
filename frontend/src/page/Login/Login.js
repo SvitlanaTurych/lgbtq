@@ -6,7 +6,7 @@ import axios from 'axios';
 import './Login.css';
 
 const Login = () => {
-  const { login } = useAuth(); 
+  const { login } = useAuth(); // Get the `login` method from AuthProvider
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -22,9 +22,10 @@ const Login = () => {
       console.log('Response:', response.data);
 
       if (response.status === 200) {
+        // Assuming response includes user and token
         const { user, token } = response.data;
-        login(user, token); 
-        navigate('/'); 
+        login(user, token); // Call AuthProvider's `login` to update context
+        navigate('/'); // Redirect to home
       } else {
         setError('Invalid username or password');
       }

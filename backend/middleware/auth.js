@@ -3,8 +3,12 @@ const User = require('../models/User');
 
 const auth = async (req, res, next) => {
     try {
+        console.log('JWT_SECRET:', process.env.JWT_SECRET);
         // Перевірка на наявність Authorization заголовка
         const token = req.header('Authorization')?.replace('Bearer ', '');
+        
+        console.log('No token provided');
+
         if (!token) {
             console.log('No token provided');
             return res.status(400).send({ message: 'Authorization token not found' });

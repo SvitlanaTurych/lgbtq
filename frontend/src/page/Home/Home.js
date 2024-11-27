@@ -16,7 +16,7 @@ export const Home = () => {
     const fetchData = async () => {
       try {
         const postsResponse = await axios.get('http://localhost:5000/api/posts/');
-        const commentsResponse = await axios.get('http://localhost:5000/api/comments');
+        const commentsResponse = await axios.get(`http://localhost:5000/api/comments/`);
         
         setPosts(postsResponse.data);
         setComments(commentsResponse.data);
@@ -47,52 +47,31 @@ export const Home = () => {
 };
 
 
-  // //Add Comment
-  // const handleAddComment = async (postId) => {
-  //   if (!currentUser || !newComment[postId]) return;
-
-  //   const comment = {
-  //     content: newComment[postId],
-  //     postId,
-  //     authorId: currentUser.id,
-  //     createdAt: new Date().toISOString(),
-  //   };
-
-  //   try {
-  //     const response = await axios.post(`http://localhost:5000/api/comments${postId}`, comment);
-  //     setComments([...comments, response.data]);
-  //     setNewComment((prev) => ({ ...prev, [postId]: '' }));  // Reset the input for this specific post
-  //   } catch (error) {
-  //     console.error('Error adding comment:', error);
-  //   }
-  // };
-
+  // Add Comment
   const handleAddComment = async (postId) => {
     if (!currentUser || !newComment[postId]) return;
-  
+
     const comment = {
       content: newComment[postId],
+      postId,
       authorId: currentUser.id,
       createdAt: new Date().toISOString(),
     };
-  
+
     try {
       const token = localStorage.getItem('authToken');
-      console.log('Token:', token); 
       if (!token) throw new Error('No authentication token found');
-  
-      // Додаємо postId в URL
+
       const response = await axios.post(`http://localhost:5000/api/comments/${postId}`, comment, {
         headers: {
-          Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`, // Передаємо токен
         },
-      });
-  
-      // Оновлюємо список коментарів
+    });
+      
       setComments([...comments, response.data]);
-      setNewComment((prev) => ({ ...prev, [postId]: '' })); // Очищаємо поле для коментаря
+      setNewComment((prev) => ({ ...prev, [postId]: '' }));  // Reset the input for this specific post
     } catch (error) {
-      console.error('Error adding comment:', error.response?.data || error.message);
+      console.error('Error adding comment:', error);
     }
   };
 
@@ -109,8 +88,8 @@ export const Home = () => {
             key={post._id}
             post={{
                 ...post,
-                authorId: post.user?._id, 
-                user: post.user?.username, 
+                authorId: post.user?._id, // Pass the user's ID as authorId
+                user: post.user?.username, // Pass the user's username
             }}
             comments={comments}
             currentUser={currentUser}
